@@ -12,7 +12,16 @@ copyright 2026 fgfxf
 
 ## 目录
 
-
+- [1. 环境准备](#1-环境准备)
+- [2. XCB库](#2-xcb库)
+- [3. X11依赖](#3-x11依赖)
+- [4. mesa库依赖](#4-mesa库依赖)
+- [5. X11扩展库](#5-x11扩展库)
+- [6. 编译 Mesa (OpenGL)](#6-编译-mesa-opengl)
+- [7. 编译 GLFW3](#7-编译-glfw3)
+- [8. 常见问题修复](#8-常见问题修复)
+- [9. 制作 GCC sysroot](#9-制作-gcc-sysroot)
+- [附录：依赖关系速查表](#附录依赖关系速查表)
 
 ---
 
@@ -20,10 +29,10 @@ copyright 2026 fgfxf
 
 ## 1.1 系统环境
 
-可以联网的centos5（可以是docker）
-内含红帽公司的devtools-2 兼容编译器（gcc-4.8.2编译器）
-centos5的devtools仓库地址：https://linuxsoft.cern.ch/cern/devtoolset/
-
+- 可以联网的centos5（可以是docker）
+- 内含红帽公司的devtoolset-2 兼容编译器（gcc-4.8.x编译器）
+centos5的devtoolset-2仓库地址：https://linuxsoft.cern.ch/cern/devtoolset/
+devtoolset-2能让gcc-4.8.x编译器编译产物兼容centos 5 （GLIBC-2.5）
 
 ### 1.2 安装 pthread-stubs（解决 Mesa 编译时缺少 pthread stub 的问题）
 
@@ -65,12 +74,25 @@ wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz
 tar xzf autoconf-2.71.tar.gz
 cd autoconf-2.71
 
-./configure --prefix=/usr/l
+./configure --prefix=/usr/local
 make -j$(nproc)
 sudo make install
 /usr/local/bin/autoconf --version
 # 可以输出 2.71 或更高
 ```
+### 1.5 python2.5以上版本
+```bash
+wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+tar xzf Python-2.7.18.tgz
+cd Python-2.7.18
+./configure --prefix=/usr/local/python2.7 --enable-optimizations
+make -j$(nproc)
+sudo make install
+export PATH=/usr/local/python2.7/bin:$PATH
+export PYTHONPATH=/usr/local/python2.7/lib/python2.7/site-packages:$PYTHONPATH
+python2.7 --version
+``` 
+
 
 ---
 
@@ -109,6 +131,7 @@ EOF
 ```bash
 wget https://www.x.org/releases/individual/proto/xproto-7.0.31.tar.gz
 tar xvf xproto-7.0.31.tar.gz
+cd xproto-7.0.31
 ./configure --prefix=/usr/local/
 make
 make install
@@ -134,9 +157,18 @@ cd libxcb-1.14
 ./configure --prefix=/usr/local
 make
 make install
+cd ..
 ```
-如果出现错误，看看/usr/local/lib/pkgconfig/xcb-proto.pc的路径是否正确。
+如果出现错误
+1:看看/usr/local/lib/pkgconfig/xcb-proto.pc的路径是否正确。
 pkg-config --modversion  xcb
+2:
+    from xcbgen.state import Module
+ImportError: No module named xcbgen.state
+设置环境变量:
+find / | grep  xcbgen.state
+看看xcbgen的路径，然后
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
 ---
 ## 3. X11依赖
@@ -177,7 +209,8 @@ tar xzf kbproto-1.0.7.tar.gz
 cd kbproto-1.0.7
 ./configure --prefix=/usr/local
 make -j $(nproc)
-sudo make install
+make install
+cd ..
 ```
 
 ### 3.4 inputproto
@@ -188,7 +221,8 @@ tar xzf inputproto-2.3.2.tar.gz
 cd inputproto-2.3.2
 ./configure --prefix=/usr/local
 make
-sudo make install
+make install
+cd ..
 ```
 ### 3.5 xtrans
 ```bash
@@ -197,17 +231,19 @@ sudo make install
 export ACLOCAL_PATH=/usr/local/share/aclocal:$ACLOCAL_PATH
 sudo cp /usr/local/share/aclocal/xorg-macros.m4 /usr/share/aclocal/
 
-wget https://master.dl.sourceforge.net/project/pisilinux/source/libXtrans-1.3.5.tar.xz
-tar -xJf libXtrans-1.3.5.tar.xz
+# wget https://master.dl.sourceforge.net/project/pisilinux/source/libXtrans-1.3.5.tar.xz
+unzip libxtrans-xtrans-1.3.5.zip
 cd libxtrans-xtrans-1.3.5
 ./autogen.sh --prefix=/usr/local
 make 
-sudo make install
+make install
+cd ..
 ```
 
 ### 3.6 libX11 核心库
 ```bash
 wget https://www.x.org/releases/individual/lib/libX11-1.7.0.tar.gz
+tar -xf libX11-1.7.0.tar.gz
 cd libX11-1.7.0
 ./configure --prefix=/usr/local/ --enable-xcb --disable-gallium-llvm
 make -j 8
@@ -259,6 +295,19 @@ make install
 cd ..
 ```
 
+
+#### renderproto
+```bash
+wget https://www.x.org/releases/individual/proto/renderproto-0.11.1.tar.gz
+tar xzf renderproto-0.11.1.tar.gz
+cd renderproto-0.11.1
+./configure --prefix=/usr/local
+make -j$(nproc)
+make install
+cd ..
+```
+
+
 #### xineramaproto
 
 ```bash
@@ -302,6 +351,7 @@ wget https://www.x.org/releases/individual/proto/dri2proto-2.8.tar.gz
 tar -xf dri2proto-2.8.tar.gz
 cd dri2proto-2.8
 ./configure --prefix=/usr/local/
+make
 make install
 cd ..
 ```
@@ -313,6 +363,7 @@ wget https://www.x.org/releases/individual/proto/dri3proto-1.0.tar.gz
 tar -xf dri3proto-1.0.tar.gz
 cd dri3proto-1.0
 ./configure --prefix=/usr/local/
+make 
 make install
 cd ..
 ```
@@ -384,19 +435,18 @@ cd ..
 mesa、glfw的依赖
 > 以下库按依赖顺序排列，必须依次编译。
 
-### 5.1 libXfixes
-
-> 依赖：x11 >= 1.6, fixesproto, xextproto >= 7.0.99.1
+### 5.1 libXrender
 
 ```bash
-wget https://www.x.org/releases/individual/lib/libXfixes-5.0.3.tar.bz2
-tar -xjf libXfixes-5.0.3.tar.bz2
-cd libXfixes-5.0.3
-./configure --prefix=/usr/local/
+wget https://www.x.org/releases/individual/lib/libXrender-0.9.10.tar.gz
+tar -xf libXrender-0.9.10.tar.gz
+cd libXrender-0.9.10
+./configure --prefix=/usr/local
 make
 make install
 cd ..
 ```
+
 
 ### 5.2 libXdamage
 
@@ -412,13 +462,15 @@ make install
 cd ..
 ```
 
-### 5.3 libXrender
+### 5.3 libXfixes
+
+> 依赖：x11 >= 1.6, fixesproto, xextproto >= 7.0.99.1
 
 ```bash
-wget https://www.x.org/releases/individual/lib/libXrender-0.9.10.tar.gz
-tar -xf libXrender-0.9.10.tar.gz
-cd libXrender-0.9.10
-./configure --prefix=/usr/local
+wget https://www.x.org/releases/individual/lib/libXfixes-5.0.3.tar.bz2
+tar -xjf libXfixes-5.0.3.tar.bz2
+cd libXfixes-5.0.3
+./configure --prefix=/usr/local/
 make
 make install
 cd ..
@@ -624,7 +676,6 @@ rsync -avR \
     --exclude='usr/etc/*' \
     --exclude='usr/games/*' \
     --exclude='usr/kerberos/*' \
-    --exclude='usr/local/*' \
     --exclude='usr/log/*' \
     --exclude='usr/sbin/*' \
     --exclude='usr/src/*' \
