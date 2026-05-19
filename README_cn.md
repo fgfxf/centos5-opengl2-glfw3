@@ -1,5 +1,15 @@
 # CentOS 5 编译 GLFW3 + OpenGL2 完整指南
 
+
+<div align="center">
+
+![CodeQL](https://github.com/serge1/ELFIO/workflows/CodeQL/badge.svg)
+![Viewer](https://komarev.com/ghpvc/?username=fgfxf-centos5-opengl2-glfw3)
+![Static Badge](https://img.shields.io/badge/License-MPL2.0-orange)
+
+</div>
+[English](README.md "en_readme")
+
 这样可以让centos5 也能用imgui了
 
 copyright 2026 fgfxf
