@@ -11,6 +11,8 @@
 
 [English](README.md "en_readme")
 
+[one_key_install.sh](/deps/one_key_install.sh "shScript")  提供了一个一键安装的脚本，如果出错请手搓.
+
 这样可以让centos5 也能用imgui了
 
 copyright 2026 fgfxf
@@ -547,7 +549,9 @@ cd ..
 
 > Mesa 提供 OpenGL 支持，需要编译两次：一次动态库，一次静态库。
 > 
-> 依赖：glproto, xext, xcb, libdrm, dri2proto, dri3proto, presentproto, libxshmfence, xfixes, xdamage
+> 依赖：glproto, xext, xcb, libdrm, dri2proto, dri3proto, presentproto, libxshmfence, xfixes, xdamage, expat-devel.x86_64
+
+yum install expat-devel.x86_64
 
 ### 6.1 下载 Mesa
 
@@ -570,7 +574,7 @@ cd ..
 ```
 
 ### 6.3 编译静态库
-
+可选，不建议选
 ```bash
 mkdir build_static && cd build_static
 ../configure --prefix=/usr/local/ \
@@ -600,9 +604,9 @@ cd ..
 > 依赖：x11, xrandr, xcursor, xi, xinerama, mesa
 
 ```bash
-wget https://github.com/glfw/glfw/releases/download/3.3.8/glfw-3.3.8.zip
-unzip glfw-3.3.8.zip
-cd glfw-3.3.8
+wget https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip
+unzip glfw-3.2.1.zip
+cd glfw-3.2.1
 mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local/ -DBUILD_SHARED_LIBS=ON
 make -j4

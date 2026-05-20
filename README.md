@@ -10,6 +10,8 @@
 
 [中文说明](README_cn.md "chinese_readme")
 
+[one_key_install.sh](/deps/one_key_install.sh "shScript")  A one-click installation script is provided. If any errors occur, please troubleshoot manually
+
 This enables ImGui to run on CentOS 5.
 
 Copyright 2026 fgfxf
@@ -549,7 +551,9 @@ cd ..
 
 > Mesa provides OpenGL support and needs to be compiled twice: once for shared libraries, and once for static libraries.
 > 
-> Dependencies: glproto, xext, xcb, libdrm, dri2proto, dri3proto, presentproto, libxshmfence, xfixes, xdamage
+> Dependencies: glproto, xext, xcb, libdrm, dri2proto, dri3proto, presentproto, libxshmfence, xfixes, xdamage, expat-devel
+
+yum install expat-devel.x86_64
 
 ### 6.1 Download Mesa
 
@@ -572,7 +576,7 @@ cd ..
 ```
 
 ### 6.3 Build Static Libraries
-
+Optional, not recommended
 ```bash
 mkdir build_static && cd build_static
 ../configure --prefix=/usr/local/ \
@@ -602,9 +606,9 @@ See Section 8.
 > Dependencies: x11, xrandr, xcursor, xi, xinerama, mesa
 
 ```bash
-wget https://github.com/glfw/glfw/releases/download/3.3.8/glfw-3.3.8.zip
-unzip glfw-3.3.8.zip
-cd glfw-3.3.8
+wget https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip
+unzip glfw-3.2.1.zip
+cd glfw-3.2.1
 mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local/ -DBUILD_SHARED_LIBS=ON
 make -j4

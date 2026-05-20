@@ -52,7 +52,7 @@ function check_gcc_version(){
 function check_python_version() {
     if command -v python >/dev/null 2>&1; then
         # 获取主版本和次版本
-        local PY_VERSION=$(python -c 'import sys; print("{}.{}".format(sys.version_info[0], sys.version_info[1]))')
+        local PY_VERSION=$(python -c 'import sys; print "%d.%d" % (sys.version_info[0], sys.version_info[1])' 2>/dev/null)
         local PY_MAJOR=$(echo "$PY_VERSION" | cut -d. -f1)
         local PY_MINOR=$(echo "$PY_VERSION" | cut -d. -f2)
 
@@ -338,7 +338,7 @@ function install_x11_dependency(){
     if ! check_pkgmodule_version "xorg-macros" "1.19.3" ;then 
         install_tar_package "util-macros-1.19.3.tar.gz"
         export ACLOCAL_PATH="${user_path}/share/aclocal:$ACLOCAL_PATH"
-        cp ${user_path}/share/aclocal/xorg-macros.m4 /usr/share/aclocal/
+        cp ${user_path}/share/aclocal/xorg-macros.m4 /usr/share/aclocal/ || { echo "exist m4 file." ; }
     fi
 
     if ! check_pkgmodule_version "kbproto" "1.0.7" ; then
@@ -352,7 +352,7 @@ function install_x11_dependency(){
     if ! check_pkgmodule_version "xtrans" "1.3.5" ; then
         unzip libxtrans-xtrans-1.3.5.zip
         cd libxtrans-xtrans-1.3.5 || { echo "Can't find dir libxtrans-xtrans-1.3.5" ; exit 1 ;}
-        ./autogen.sh --prefix=/usr/local || { echo "Can't run autogen.sh in libXtrans" ; exit 1 ;}
+        ./autogen.sh --prefix=${user_path} || { echo "Can't run autogen.sh in libXtrans" ; exit 1 ;}
         make  || { echo "make error !  libXtrans " ; exit 1 ;}
         make install || { echo "make install error ! libXtrans" ; exit 1 ; }
         cd ..
@@ -502,7 +502,7 @@ function main(){
     fi
     ask_install_path
     if ! check_python_version; then
-        if !install_python2_7; then
+        if ! install_python2_7; then
             exit 1
         fi
     fi
