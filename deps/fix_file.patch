@@ -1,0 +1,21 @@
+--- src/linux_joystick.c.bak	2026-05-20 11:09:49.535042194 +0800
++++ src/linux_joystick.c	2026-05-20 11:09:53.279119007 +0800
+@@ -178,7 +178,17 @@
+     int count = 0;
+     const char* dirname = "/dev/input";
+ 
+-    _glfw.linux_js.inotify = inotify_init1(IN_NONBLOCK | IN_CLOEXEC);
++    _glfw.linux_js.inotify = inotify_init();  // Available on older glibc versions
++    if (_glfw.linux_js.inotify >= 0)
++    {
++        // Set non-blocking
++        int flags = fcntl(_glfw.linux_js.inotify, F_GETFL, 0);
++        fcntl(_glfw.linux_js.inotify, F_SETFL, flags | O_NONBLOCK);
++
++        // Set close-on-exec
++        flags = fcntl(_glfw.linux_js.inotify, F_GETFD, 0);
++        fcntl(_glfw.linux_js.inotify, F_SETFD, flags | FD_CLOEXEC);
++    }
+     if (_glfw.linux_js.inotify == -1)
+     {
+         _glfwInputError(GLFW_PLATFORM_ERROR,

@@ -460,8 +460,21 @@ make install
 cd ..
 ```
 
+### 5.2 libXfixes
 
-### 5.2 libXdamage
+> Dependencies: x11 >= 1.6, fixesproto, xextproto >= 7.0.99.1
+
+```bash
+wget https://www.x.org/releases/individual/lib/libXfixes-5.0.3.tar.gz
+tar -xjf libXfixes-5.0.3.tar.gz
+cd libXfixes-5.0.3
+./configure --prefix=/usr/local/
+make
+make install
+cd ..
+```
+
+### 5.3 libXdamage
 
 > Dependencies: xfixes, damageproto
 
@@ -475,19 +488,7 @@ make install
 cd ..
 ```
 
-### 5.3 libXfixes
 
-> Dependencies: x11 >= 1.6, fixesproto, xextproto >= 7.0.99.1
-
-```bash
-wget https://www.x.org/releases/individual/lib/libXfixes-5.0.3.tar.bz2
-tar -xjf libXfixes-5.0.3.tar.bz2
-cd libXfixes-5.0.3
-./configure --prefix=/usr/local/
-make
-make install
-cd ..
-```
 
 ### 5.4 libXrandr
 
@@ -590,7 +591,7 @@ make -j4
 make install
 cd ..
 ```
-### 6.4 `F_DUPFD_CLOEXEC` Undeclared
+### 6.4 `F_DUPFD_CLOEXEC` `O_CLOEXEC` Undeclared
 
 See Section 8.
 
@@ -639,7 +640,7 @@ Affected files typically include:
 
 ### 8.2 `IN_NONBLOCK` / `IN_CLOEXEC` Undefined (GLFW Old System Compatibility)
 
-If using GLFW 3.1.x or older, you may encounter the following when compiling `linux_joystick.c` on old systems:
+If using GLFW 3.1.x or newer, you may encounter the following when compiling `linux_joystick.c` on old systems:
 
 ```
 error: 'IN_NONBLOCK' undeclared

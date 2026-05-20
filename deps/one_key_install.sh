@@ -412,7 +412,87 @@ function install_mesa_dependency(){
     if ! check_pkgmodule_version "xshmfence" "1.3" ; then
         install_tar_package "libxshmfence-1.3.tar.gz"
     fi
+}
 
+function install_softGPU_support(){
+    if ! check_pkgmodule_version "pciaccess" "0.13.5" ; then
+        install_tar_package "libpciaccess-0.13.5.tar.gz"
+    fi
+
+    if ! check_pkgmodule_version "libdrm" "2.4.75" ; then
+        export CFLAGS="-DO_CLOEXEC=0 $CFLAGS"
+        export CXXFLAGS="-DO_CLOEXEC=0 $CXXFLAGS"
+        install_tar_package "libdrm-2.4.75.tar.gz" --enable-static=yes --enable-shared=yes
+    fi
+}
+
+function install_x11_extension(){
+    if ! check_pkgmodule_version "xrender" "0.9.10"; then
+        install_tar_package "libXrender-0.9.10.tar.gz"
+    fi
+
+    if ! check_pkgmodule_version "xfixes" "5.0.3"; then
+        install_tar_package "libXfixes-5.0.3.tar.gz"
+    fi
+
+    if ! check_pkgmodule_version "xdamage" "1.1.7"; then
+        install_tar_package  "libXdamage-1.1.7.tar.gz"
+    fi
+
+
+    if ! check_pkgmodule_version "xrandr" "1.5.2"; then
+        install_tar_package "libXrandr-1.5.2.tar.gz"
+    fi
+
+    if ! check_pkgmodule_version "xcursor" "1.2.0"; then
+        install_tar_package "libXcursor-1.2.0.tar.gz"
+    fi
+
+    if ! check_pkgmodule_version "xinerama" "1.1.4"; then
+        install_tar_package "libXinerama-1.1.4.tar.gz"
+    fi
+
+    if ! check_pkgmodule_version "xi" "1.7.10"; then
+        install_tar_package "libXi-1.7.10.tar.gz" --with-x-includes=${user_path}/include --with-x-libraries=${user_path}/lib
+    fi
+}
+
+function install_mesa_opengl(){
+
+    if ! [ -f ${user_path}/lib/libGL.so ] || ! check_pkgmodule_version "glesv2" "7.0" ; then
+        echo -e "${YELLOW} Mesa OpenGL dynamic library not found. ${RESET}"
+        tar -xf mesa-17.0.0.tar.gz
+        cd mesa-17.0.0 || { echo "mesa-17.0.0 DIR not found! "; exit 1 ; }
+        mkdir build_shared || { echo "build_shared exist! "; }
+        cd build_shared
+        export CPPFLAGS="-D_GNU_SOURCE -DO_CLOEXEC=0 -DF_DUPFD_CLOEXEC=0 $CPPFLAGS"
+        export CFLAGS="-D_GNU_SOURCE -DO_CLOEXEC=0 -DF_DUPFD_CLOEXEC=0 $CFLAGS"
+        export CXXFLAGS="-D_GNU_SOURCE -DO_CLOEXEC=0 -DF_DUPFD_CLOEXEC=0 $CXXFLAGS"
+        ../configure --prefix=/usr/local/  --with-gallium-drivers=svga,swrast  --disable-gallium-llvm
+        make -j4 
+        make install
+        cd ../../
+    fi
+}
+
+
+function install_glfw3(){
+    if ! check_pkgmodule_version "glfw3" "3" ; then
+        if ! [ -d glfw-3.2.1 ] ; then 
+            unzip glfw-3.2.1.zip
+            cp fix_file.patch glfw-3.2.1
+            cd glfw-3.2.1
+            patch -p0 < fix_file.patch
+            cd ../
+        fi
+        cd glfw-3.2.1
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local/ -DBUILD_SHARED_LIBS=ON
+        make -j4
+        make install
+        cd ../..
+    fi
 }
 # main:
 function main(){
@@ -438,14 +518,18 @@ function main(){
 
     install_xcb
     install_x11_dependency
-
-
+    install_mesa_dependency
+    install_softGPU_support
+    install_x11_extension
+    install_mesa_opengl
+    install_glfw3
 }
 
+# test or install single pkg
 function testmain(){
-    install_mesa_dependency
+    install_glfw3
 }
 
 # main
-testmain
+main
 echo "End.."

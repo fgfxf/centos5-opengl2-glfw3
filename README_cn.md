@@ -458,8 +458,21 @@ make install
 cd ..
 ```
 
+### 5.2 libXfixes
 
-### 5.2 libXdamage
+> 依赖：x11 >= 1.6, fixesproto, xextproto >= 7.0.99.1
+
+```bash
+wget https://www.x.org/releases/individual/lib/libXfixes-5.0.3.tar.gz
+tar -xjf libXfixes-5.0.3.tar.gz
+cd libXfixes-5.0.3
+./configure --prefix=/usr/local/
+make
+make install
+cd ..
+```
+
+### 5.3 libXdamage
 
 > 依赖：xfixes, damageproto
 
@@ -473,19 +486,7 @@ make install
 cd ..
 ```
 
-### 5.3 libXfixes
 
-> 依赖：x11 >= 1.6, fixesproto, xextproto >= 7.0.99.1
-
-```bash
-wget https://www.x.org/releases/individual/lib/libXfixes-5.0.3.tar.bz2
-tar -xjf libXfixes-5.0.3.tar.bz2
-cd libXfixes-5.0.3
-./configure --prefix=/usr/local/
-make
-make install
-cd ..
-```
 
 ### 5.4 libXrandr
 
@@ -588,7 +589,7 @@ make -j4
 make install
 cd ..
 ```
-### 6.4 F_DUPFD_CLOEXEC’ undeclared
+### 6.4 `F_DUPFD_CLOEXEC` `O_CLOEXEC`  undeclared
 
 见第八节
 
@@ -614,7 +615,7 @@ error: ‘IN_NONBLOCK’ undeclared 见下一节
 
 ## 8. 常见问题修复
 
-### 8.1 `F_DUPFD_CLOEXEC` 未定义（旧 glibc 兼容）
+### 8.1 `F_DUPFD_CLOEXEC`  未定义（旧 glibc 兼容）
 
 如果在编译 Mesa 时遇到如下错误：
 
@@ -637,7 +638,7 @@ error: 'F_DUPFD_CLOEXEC' undeclared (first use in this function)
 
 ### 8.2 `IN_NONBLOCK` / `IN_CLOEXEC` 未定义（GLFW 旧系统兼容）
 
-如果使用 GLFW 3.1.x 或更旧版本，在旧系统上编译 `linux_joystick.c` 时可能遇到：
+编译GLFW时，在旧系统上编译 `linux_joystick.c` 时可能遇到：
 
 ```
 error: 'IN_NONBLOCK' undeclared
