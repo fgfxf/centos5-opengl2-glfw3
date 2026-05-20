@@ -468,7 +468,7 @@ function install_mesa_opengl(){
         export CPPFLAGS="-D_GNU_SOURCE -DO_CLOEXEC=0 -DF_DUPFD_CLOEXEC=0 $CPPFLAGS"
         export CFLAGS="-D_GNU_SOURCE -DO_CLOEXEC=0 -DF_DUPFD_CLOEXEC=0 $CFLAGS"
         export CXXFLAGS="-D_GNU_SOURCE -DO_CLOEXEC=0 -DF_DUPFD_CLOEXEC=0 $CXXFLAGS"
-        ../configure --prefix=/usr/local/  --with-gallium-drivers=svga,swrast  --disable-gallium-llvm
+        ../configure --prefix=${user_path}  --with-gallium-drivers=svga,swrast  --disable-gallium-llvm
         make -j4 
         make install
         cd ../../
@@ -488,7 +488,7 @@ function install_glfw3(){
         cd glfw-3.2.1
         mkdir build
         cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local/ -DBUILD_SHARED_LIBS=ON
+        cmake .. -DCMAKE_INSTALL_PREFIX=${user_path}  -DBUILD_SHARED_LIBS=ON
         make -j4
         make install
         cd ../..
