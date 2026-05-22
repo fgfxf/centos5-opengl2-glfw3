@@ -23,7 +23,7 @@
 - 一键编译脚本  
 
 
-**关键词**：CentOS 5 OpenGl2； CentOS 5 GLFW3； Compile OpenGL2 on CentOS 5； Compile GLFW3 on CentOS 5； CentOS 5 build OpenGL2 ； CentOS 5 build GLFW 3 。
+**关键词**：CentOS 5 OpenGl2； CentOS 5 GLFW3； Compile OpenGL2 on CentOS 5； Compile GLFW3 on CentOS 5； CentOS 5 build OpenGL2 ； CentOS 5 build GLFW 3  ； ImGUI centos 5 。
 
 这样可以让centos5 也能用imgui了（由于没有解决GLX1.3，目前只能MobaXterm远程看到ui界面）
 

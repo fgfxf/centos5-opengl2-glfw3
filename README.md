@@ -19,11 +19,11 @@ This project provides a method to compile **OpenGL2** and **GLFW3** shared / sta
 Features:
 - High compatibility with legacy Linux systems  
 - Complete guide for dependency setup and Mesa compilation  
-- onkey install script
+- one-key install script
 
-**Keywords**: CentOS 5 OpenGl2; CentOS 5 GLFW3; Compile OpenGL2 on CentOS 5; Compile GLFW3 on CentOS 5; CentOS 5 build OpenGL2 ; CentOS 5 build GLFW 3 
+**Keywords**: CentOS 5 OpenGl2; CentOS 5 GLFW3; Compile OpenGL2 on CentOS 5; Compile GLFW3 on CentOS 5; CentOS 5 build OpenGL2 ; CentOS 5 build GLFW 3 ; ImGUI centos 5 .
 
-This enables ImGui to run on CentOS 5.
+This enables ImGui to run on CentOS 5. (Due to the unresolved issue with GLX1.3, currently, the UI interface can only be remotely accessed through MobaXterm)
 
 Copyright 2026 fgfxf
 
