@@ -1,4 +1,6 @@
 # Complete Guide to Building GLFW3 + OpenGL2 on CentOS 5
+<meta name="description" content="This project provides a method to compile OpenGL2 and GLFW3 static libraries on CentOS 5.11, compatible with legacy systems, suitable for old environment development and porting.">
+<meta name="keywords" content="CentOS 5 OpenGl2; CentOS 5 GLFW3; Compile OpenGL2 on CentOS 5; Compile GLFW3 on CentOS 5; CentOS 5 build OpenGL2 ; CentOS 5 build GLFW 3 ">
 
 <div align="center">
 
@@ -11,6 +13,15 @@
 [中文说明](README_cn.md "chinese_readme")
 
 [one_key_install.sh](/deps/one_key_install.sh "shScript")  A one-click installation script is provided. If any errors occur, please troubleshoot manually
+
+
+This project provides a method to compile **OpenGL2** and **GLFW3** shared / static libraries on **CentOS 5.11**.  
+Features:
+- High compatibility with legacy Linux systems  
+- Complete guide for dependency setup and Mesa compilation  
+- onkey install script
+
+**Keywords**: CentOS 5 OpenGl2; CentOS 5 GLFW3; Compile OpenGL2 on CentOS 5; Compile GLFW3 on CentOS 5; CentOS 5 build OpenGL2 ; CentOS 5 build GLFW 3 
 
 This enables ImGui to run on CentOS 5.
 

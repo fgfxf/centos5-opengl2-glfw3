@@ -1,6 +1,9 @@
 # CentOS 5 编译 GLFW3 + OpenGL2 完整指南
 
 
+<meta name="description" content="本项目提供在 CentOS 5.11 系统上编译 OpenGL2 与 GLFW3 静态库的方法，兼容老旧系统，适合老旧环境开发和移植。">
+<meta name="keywords" content="CentOS 5 OpenGl2； CentOS 5 GLFW3； Compile OpenGL2 on CentOS 5； Compile GLFW3 on CentOS 5； CentOS 5 build OpenGL2 ； CentOS 5 build GLFW 3 ">
+
 <div align="center">
 
 ![CodeQL](https://github.com/serge1/ELFIO/workflows/CodeQL/badge.svg)
@@ -9,11 +12,20 @@
 
 </div>
 
-[English](README.md "en_readme")
+[English version](README.md "readme  for english")
 
 [one_key_install.sh](/deps/one_key_install.sh "shScript")  提供了一个一键安装的脚本，如果出错请手搓.
 
-这样可以让centos5 也能用imgui了
+## 简介
+本项目提供在 **CentOS 5.11** 系统上编译 **OpenGL2** 与 **GLFW3** 动态库和静态库的方法。  
+- 支持老旧系统，兼容性高  
+- 提供完整依赖环境配置与 Mesa 编译指南
+- 一键编译脚本  
+
+
+**关键词**：CentOS 5 OpenGl2； CentOS 5 GLFW3； Compile OpenGL2 on CentOS 5； Compile GLFW3 on CentOS 5； CentOS 5 build OpenGL2 ； CentOS 5 build GLFW 3 。
+
+这样可以让centos5 也能用imgui了（由于没有解决GLX1.3，目前只能MobaXterm远程看到ui界面）
 
 copyright 2026 fgfxf
 
