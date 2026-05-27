@@ -602,6 +602,22 @@ mkdir build_static && cd build_static
     --with-platforms=x11,drm \
     --disable-gbm \
     --with-gallium-drivers=svga,swrast
+
+Or
+
+../configure --prefix=/usr/local \
+    --enable-glx \
+    --enable-static \
+    --enable-shared \
+    --disable-dri \
+    --disable-dri3 \
+    --disable-egl \
+    --disable-gbm \
+    --disable-gles1 \
+    --disable-gles2 \
+    --with-platforms=x11 \
+    --with-gallium-drivers=swrast,svga
+    
 make -j4
 make install
 cd ..
